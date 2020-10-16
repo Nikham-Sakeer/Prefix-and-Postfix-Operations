@@ -4,7 +4,8 @@
 #include<ctype.h>     //for isdigit(char )
 #include<string.h>
 #define SIZE 100
-char stack[SIZE];
+char stack_ch[SIZE];
+int stack[20];
 int top = -1;
 #define BLANK ' '
 #define TAB '\t'
@@ -22,7 +23,7 @@ void push_ch(char item)
     else
     {
         top = top+1;
-        stack[top] = item;
+        stack_ch[top] = item;
     }
 }
 
@@ -39,7 +40,7 @@ char pop_ch()
     }
     else
     {
-        item = stack[top];
+        item = stack_ch[top];
         top = top-1;
         return(item);
     }
@@ -124,61 +125,6 @@ int white_space(char symbol)
 }/*End of white_space()*/
 
 
-
-/*void EvalPostfix(char postfix[])
-{
-
-    int i;
-    char ch;
-    long val=0;
-    int A, B;
-    int k;
-
-    /* evaluate postfix expression */
-/* for (i = 0; postfix[i] != '\0'; i++) {
-     ch = postfix[i];
-     if (isdigit(ch)) {
-         //to get ASCII
-         k = ch - 48;
-         push_pre(k);
-     }
-     else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
-
-         A = pop_pre();
-         B = pop_pre();
-
-
-         switch (ch) /* ch is an operator */
-/*  {
-  case '*':
-      val = B * A;
-      break;
-
-  case '/':
-      val = B / A;
-      break;
-
-  case '+':
-      val = B + A;
-      break;
-
-  case '-':
-      val=B-A;
-      break;
-  case '^':
-      val= B ^ A;
-      break;
-  }
-
-  /* push the value obtained above onto the stack */
-/* push_pre(val);
-}
-}
-printf(" \n Result of expression evaluation : %d \n", pop_pre());
-}
-
-*/
-
 void EvalPostfix(char exp[])
 {
     char *e;
@@ -188,7 +134,7 @@ void EvalPostfix(char exp[])
     {
         if(isdigit(*e))
         {
-            num = *e -48;
+            num = *e - 48;
             push(num);
         }
         else
@@ -205,16 +151,8 @@ void EvalPostfix(char exp[])
             }
             case '-':
             {
-                if(n2>n1) {
                     n3 = n2 - n1;
                     break;
-                }
-                else if(n1>n2)
-                {
-                    check=1;
-                    n3=n1-n2;
-                    break;
-                }
             }
             case '*':
             {
@@ -235,14 +173,11 @@ void EvalPostfix(char exp[])
                 }
             }
             }
-            if(check==0)
-                push(n3);
-            else
-                push(256-n3);
+            push(n3);
         }
         e++;
     }
-    printf("\nThe result of expression %s  =  %d\n\n",exp,pop());
+    printf("\nValue of expression  =  %d\n\n",pop());
 }
 void InfixToPostfix(char infix_exp[], char postfix_exp[])
 {
@@ -332,10 +267,10 @@ void infix_to_prefix(char infix[])
             switch(symbol)
             {
             case ')':
-                push(symbol);
+                push_ch(symbol);
                 break;
             case '(':
-                while( (next=pop()) != ')')
+                while( (next=pop_ch()) != ')')
                     prefix[p++] = next;
                 break;
             case '+':
@@ -345,8 +280,8 @@ void infix_to_prefix(char infix[])
             case '%':
             case '^':
                 while( !isempty( ) &&  priority(stack[top])> priority(symbol) )
-                    prefix[p++] = pop();
-                push(symbol);
+                    prefix[p++] = pop_ch();
+                push_ch(symbol);
                 break;
             default: /*if an operand comes*/
                 prefix[p++] = symbol;
@@ -354,7 +289,7 @@ void infix_to_prefix(char infix[])
         }
     }
     while(!isempty( ))
-        prefix[p++] = pop();
+        prefix[p++] = pop_ch();
     prefix[p] = '\0'; /*End prefix with'\0' to make it a string*/
 
     for(i=0,j=p-1; i<j; i++,j--)
@@ -427,6 +362,7 @@ int main()
         getchar();
         switch (opt) {
         case 1:
+        printf("\nASSUMPTION: The infix expression contains single letter variables and single digit constants only.\n");
             printf("\nEnter Infix expression : ");
             gets(infix);
 
@@ -437,6 +373,7 @@ int main()
 
 
         case 2:
+        printf("\nASSUMPTION: The infix expression contains single letter variables and single digit constants only.\n");
             printf("\nEnter Infix expression : ");
             gets(infix);
             infix_to_prefix(infix);
@@ -447,7 +384,7 @@ int main()
 
         case 3:
             printf(" \nEnter postfix expression : ");
-            gets(exp);
+            scanf("%s",exp);
             /* call function to evaluate postfix expression */
 
             EvalPostfix(exp);
@@ -465,5 +402,4 @@ int main()
         scanf(" %c",&cont);
     } while(cont=='y' || cont=='Y');
     return 0;
-}
-
+} 
