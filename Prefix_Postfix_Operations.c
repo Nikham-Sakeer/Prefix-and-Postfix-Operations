@@ -364,7 +364,7 @@ int main()
         case 1:
         printf("\nASSUMPTION: The infix expression contains single letter variables and single digit constants only.\n");
             printf("\nEnter Infix expression : ");
-            gets(infix);
+            fgets(infix, SIZE, stdin);
 
             InfixToPostfix(infix,postfix);                   /* call to convert */
             printf("Postfix Expression: ");
@@ -375,7 +375,7 @@ int main()
         case 2:
         printf("\nASSUMPTION: The infix expression contains single letter variables and single digit constants only.\n");
             printf("\nEnter Infix expression : ");
-            gets(infix);
+            fgets(infix, SIZE, stdin);
             infix_to_prefix(infix);
             printf("Prefix Expression: \n");
             puts(prefix);
@@ -391,7 +391,7 @@ int main()
             break;
         case 4:
             printf("\nEnter Prefix expression : ");
-            gets(infix);
+            fgets(infix, SIZE, stdin);
             value=eval_pre(infix);
             printf("Value of expression : %d\n",value);
             break;
